@@ -24,10 +24,6 @@ public class StateCensusAnalyser {
 						Double.parseDouble(record[3])));
 			}
 
-			for (CSVStateCensus data : censusData) {
-				System.out.println(data);
-			}
-			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
