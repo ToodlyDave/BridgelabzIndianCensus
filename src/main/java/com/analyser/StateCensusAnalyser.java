@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.entity.CSVStateCensus;
+import com.exceptions.InvalidDelimiter;
 import com.exceptions.InvalidFile;
 import com.exceptions.InvalidType;
 import com.opencsv.CSVReader;
@@ -15,14 +16,17 @@ public class StateCensusAnalyser {
 
 	ArrayList<CSVStateCensus> censusData = new ArrayList<CSVStateCensus>();
 
-	public void loadData(String filePath) throws InvalidFile, InvalidType {
+	public void loadData(String filePath) throws InvalidFile, InvalidType, InvalidDelimiter {
 
 		try {
 
 			CSVReader reader = new CSVReader(new FileReader(filePath));
 			String[] record;
 			record = reader.readNext();
+			
 			while ((record = reader.readNext()) != null) {
+				if (record.length != 4) 
+					throw new InvalidDelimiter();
 				censusData.add(new CSVStateCensus(record[0], Long.parseLong(record[1]), Integer.parseInt(record[2]),
 						Double.parseDouble(record[3])));
 			}
@@ -39,9 +43,10 @@ public class StateCensusAnalyser {
 		} catch (NumberFormatException e) {
 			throw new InvalidType(" This record had an invalid type ");
 		}
-		
+
 	}
 
+	
 	public boolean checkData() {
 		if (censusData.size() == 29)
 			return true;
