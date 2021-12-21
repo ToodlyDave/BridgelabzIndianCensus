@@ -7,23 +7,30 @@ import org.junit.Test;
 
 import com.analyser.StateCensusAnalyser;
 import com.exceptions.InvalidFile;
+import com.exceptions.InvalidType;
 
 public class TestAnalyser {
-	
+
 	StateCensusAnalyser analyser;
-	
+
 	@Before
 	public void initialization() {
 		analyser = new StateCensusAnalyser();
 	}
 
 	@Test
-	public void testRecordMatch() throws InvalidFile {
+	public void testRecordMatch() throws InvalidFile, InvalidType {
 		analyser.loadData("src/main/resources/IndiaStateCensusData.csv");
 		assertEquals(true, analyser.checkData());
 	}
+
 	@Test(expected = InvalidFile.class)
-	public void testFileCheckSad() throws InvalidFile {
+	public void testFileCheckSad() throws InvalidFile, InvalidType {
 		analyser.loadData("src/main/resources/IndiaStateCensusDat.csv");
+	}
+
+	@Test(expected = InvalidType.class)
+	public void testTypeCheckSad() throws InvalidFile, InvalidType {
+		analyser.loadData("src/main/resources/IndiaStateCensusDataWrong.csv");
 	}
 }

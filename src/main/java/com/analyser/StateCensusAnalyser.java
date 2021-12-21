@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.entity.CSVStateCensus;
 import com.exceptions.InvalidFile;
+import com.exceptions.InvalidType;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
@@ -14,7 +15,7 @@ public class StateCensusAnalyser {
 
 	ArrayList<CSVStateCensus> censusData = new ArrayList<CSVStateCensus>();
 
-	public void loadData(String filePath) throws InvalidFile {
+	public void loadData(String filePath) throws InvalidFile, InvalidType {
 
 		try {
 
@@ -35,7 +36,10 @@ public class StateCensusAnalyser {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			throw new InvalidType(" This record had an invalid type ");
 		}
+		
 	}
 
 	public boolean checkData() {
